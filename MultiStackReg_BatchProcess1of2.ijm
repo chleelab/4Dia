@@ -2,7 +2,7 @@
 // It seperates each channels and time points to only align one particular z-stack.
 // Later all channels are aligned too based on the result of alignment of a chosen channel as a reference position.
 // Author: ChangHwan Lee,     Aug 14, 2017
-// Last modification: Oct 27, 2021.
+// Last modification: March 31, 2023.
 
 ChToUse = 1;
 dirS = getDirectory("Choose source Directory");
@@ -32,7 +32,7 @@ for (i = 0; i < filenames.length; i++) {
 					selectWindow(filenames[i]);
 					run("Make Substack...", "channels="+ChToUse+" slices="+aa+"-"+sl+" frames="+k);
 				}
-			 	run("MultiStackReg", "stack_1=[AlignTemp.tif] action_1=Align file_1=c:\\CHL\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body] save");
+			 	run("MultiStackReg", "stack_1=[AlignTemp.tif] action_1=Align file_1="+dirD+"\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body] save");
 			 	if (p==1){
 			 		run("Reverse");
 			 	}
@@ -51,7 +51,7 @@ for (i = 0; i < filenames.length; i++) {
 				if (p==2){
 					run("Make Substack...", "channels=1"+" slices="+aa+"-"+sl+" frames="+k);
 				}
-			 	run("MultiStackReg", "stack_1=["+title+"-"+p*3-2+".tif] action_1=[Load Transformation File] file_1=c:\\CHL\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
+			 	run("MultiStackReg", "stack_1=["+title+"-"+p*3-2+".tif] action_1=[Load Transformation File] file_1="+dirD+"\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
 				if (p==1) 	{
 				 	run("Reverse");
 				}
@@ -68,7 +68,7 @@ for (i = 0; i < filenames.length; i++) {
 				if (p==2){
 					run("Make Substack...", "channels=2"+" slices="+aa+"-"+sl+" frames="+k);
 				}
-			 	run("MultiStackReg", "stack_1=["+title+"-"+p*3-1+".tif] action_1=[Load Transformation File] file_1=c:\\CHL\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
+			 	run("MultiStackReg", "stack_1=["+title+"-"+p*3-1+".tif] action_1=[Load Transformation File] file_1="+dirD+"\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
 				if (p==1) 	{
 				 	run("Reverse");
 				}
@@ -86,7 +86,7 @@ for (i = 0; i < filenames.length; i++) {
 				selectWindow(filenames[i]);
 					run("Make Substack...", "channels=3"+" slices="+aa+"-"+sl+" frames="+k);
 				}
-			 run("MultiStackReg", "stack_1=["+title+"-"+p*3+".tif] action_1=[Load Transformation File] file_1=c:\\CHL\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
+			 run("MultiStackReg", "stack_1=["+title+"-"+p*3+".tif] action_1=[Load Transformation File] file_1="+dirD+"\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
 			if (p==1){
 			 	run("Reverse");
 			}
@@ -140,7 +140,7 @@ for (i = 0; i < filenames.length; i++) {
 		// One big stack to hyperstack
 		run("Properties...", "channels="+ch+" slices="+sl+" frames="+fr);
 
-		saveAs("Tiff", dirD+title+"_reg"+".tif");
+		saveAs("Tiff", dirD+title+"_Zreg"+".tif");
 		close(); // close original file
 	}
 }

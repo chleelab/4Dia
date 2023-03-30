@@ -1,6 +1,7 @@
 // This macro runs StackReg on all the files ending with .tif in a folder
 // It seperates each channels and time points to only align one particular z-stack.
 // Author: ChangHwan Lee,     Aug 14, 2017
+// Last modification: March 31, 2023.
 
 dirS = getDirectory("Choose source Directory");
 dirD = getDirectory("Choose destination Directory");
@@ -25,7 +26,7 @@ for (i = 0; i < filenames.length; i++) {
 
 //		run("Subtract...", "value=5 stack");     // added on 12/23/17 to eliminate bg glaring from oocytes
 
-		run("MultiStackReg", "stack_1=["+"MAX_"+title+"-1.tif] action_1=Align file_1=c:\\CHL\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body] save");
+		run("MultiStackReg", "stack_1=["+"MAX_"+title+"-1.tif] action_1=Align file_1="+dirD+"\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body] save");
 		selectWindow("MAX_"+title+"-1.tif");
 		close();	
 		selectWindow(title+"-1.tif");
@@ -35,7 +36,7 @@ for (i = 0; i < filenames.length; i++) {
 			for (j = 1; j < ch+1; j++) {
 				selectWindow(filenames[i]);
 			 run("Make Substack...", "channels="+j+" slices="+m);
-			 run("MultiStackReg", "stack_1=["+title+"-"+j+".tif] action_1=[Load Transformation File] file_1=c:\\CHL\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
+			 run("MultiStackReg", "stack_1=["+title+"-"+j+".tif] action_1=[Load Transformation File] file_1="+dirD+"\\vector.txt stack_2=None action_2=Ignore file_2=[] transformation=[Rigid Body]");
 			}
 			 // Merge into one multi-channel z-stack
 			 run("Merge Channels...", "c7=["+title+"-1.tif] c6=["+title+"-2.tif] c4=["+title+"-3.tif] create");
@@ -72,7 +73,7 @@ for (i = 0; i < filenames.length; i++) {
 		// One big stack to hyperstack
 		run("Properties...", "channels="+ch+" slices="+fr+" frames="+sl);
 		run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]");
-		saveAs("Tiff", dirD+title+"_reg"+".tif");
+		saveAs("Tiff", dirD+title+"_Treg"+".tif");
 		close(); // close original file
 	}
 }
